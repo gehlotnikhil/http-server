@@ -1,21 +1,17 @@
-const https = require('https');
-const fs = require('fs');
-const express = require('express');
+const http = require('http');
 
-const app = express();
+// Define the port to listen on
+const port = 80;
 
-// Middleware to handle HTTP GET request
-app.get('/', (req, res) => {
-  res.send('Hello, HTTPS world!');
+// Create an HTTP server
+const server = http.createServer((req, res) => {
+  // Set the response HTTP header with HTTP status and Content type
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello, HTTP world!\n');
 });
 
-// Reading the SSL certificates
-const options = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem')
-};
-
-// Creating HTTPS server
-https.createServer(options, app).listen(8000, () => {
-  console.log('HTTPS Server is running on port 8000');
+// Make the server listen on the specified port
+server.listen(port, () => {
+  console.log(`HTTP Server is running on port ${port}`);
 });
